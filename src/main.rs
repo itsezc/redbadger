@@ -49,7 +49,9 @@ pub fn main() -> Result<(), &'static str> {
 
 #[cfg(test)]
 mod tests {
-	use crate::{Orientation, Position};
+	use std::collections::HashMap;
+
+	use crate::{Grid, Orientation, Position, Robot};
 
 	#[test]
 	fn it_parses_robot_position() {
@@ -58,5 +60,33 @@ mod tests {
 		assert_eq!(position.x, 10);
 		assert_eq!(position.y, 5);
 		assert!(matches!(position.orientation, Orientation::East));
+	}
+
+	#[test]
+	fn it_processes_instructions() {
+		let mut scents = HashMap::new();
+		let mut grid = Grid::new(50, 50);
+
+		// Robot#1
+		{
+			let mut robot = Robot::new("1 1 E".to_string().try_into().unwrap());
+
+			grid.process_instructions(&mut robot, &mut scents, "RFRFRFRF".to_string());
+
+			assert_eq!(robot.last_position.x, 1);
+			assert_eq!(robot.last_position.y, 1);
+			assert!(matches!(robot.last_position.orientation, Orientation::East));
+		}
+
+		// Robot#2
+		{
+			let mut robot = Robot::new("10 10 W".to_string().try_into().unwrap());
+
+			grid.process_instructions(&mut robot, &mut scents, "RLLFFRLFRRRFFFFLRF".to_string());
+
+			assert_eq!(robot.last_position.x, 15);
+			assert_eq!(robot.last_position.y, 7);
+			assert!(matches!(robot.last_position.orientation, Orientation::East));
+		}
 	}
 }
