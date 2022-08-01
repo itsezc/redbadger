@@ -1,6 +1,9 @@
 use std::collections::HashMap;
 use std::fmt::{Display, Formatter};
 
+use robot::Robot;
+
+pub mod handlers;
 pub mod robot;
 
 /// Maximum coordinate value for the grid
