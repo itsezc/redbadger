@@ -3,7 +3,7 @@ use std::fmt::{Display, Formatter};
 
 use robot::Robot;
 
-use handlers::InstructionHandler;
+use handlers::{ForwardHandler, InstructionHandler, LeftHandler, RightHandler};
 
 pub mod handlers;
 pub mod robot;
@@ -88,4 +88,19 @@ impl Map {
 pub struct Grid {
 	map: Map,
 	instruction_handlers: HashMap<char, Box<dyn InstructionHandler>>,
+}
+
+impl Grid {
+	pub fn new(max_x: u8, max_y: u8) -> Self {
+		let mut instruction_handlers: HashMap<_, Box<dyn InstructionHandler>> = HashMap::new();
+
+		instruction_handlers.insert('L', Box::new(LeftHandler));
+		instruction_handlers.insert('R', Box::new(RightHandler));
+		instruction_handlers.insert('F', Box::new(ForwardHandler));
+
+		Self {
+			map: Map::new(max_x, max_y),
+			instruction_handlers,
+		}
+	}
 }
