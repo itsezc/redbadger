@@ -48,6 +48,25 @@ impl Display for Position {
 	}
 }
 
+impl TryInto<Position> for String {
+	type Error = &'static str;
+
+	fn try_into(self) -> Result<Position, Self::Error> {
+		let parts = self.split(" ").collect::<Vec<_>>();
+
+		let err = "Error parsing coordinate";
+
+		let x = parts[0].parse().map_err(|_| err)?;
+		let y = parts[1].parse().map_err(|_| err)?;
+
+		Ok(Position {
+			x: validate_coordinate(x)?,
+			y: validate_coordinate(y)?,
+			orientation: parts[2].try_into()?,
+		})
+	}
+}
+
 pub struct Map {
 	max_x: u8,
 	max_y: u8,
