@@ -3,6 +3,8 @@ use std::fmt::{Display, Formatter};
 
 use robot::Robot;
 
+use handlers::InstructionHandler;
+
 pub mod handlers;
 pub mod robot;
 
@@ -85,5 +87,5 @@ impl Map {
 
 pub struct Grid {
 	map: Map,
-	instruction_handlers: HashMap<char, char>,
+	instruction_handlers: HashMap<char, Box<dyn InstructionHandler>>,
 }
