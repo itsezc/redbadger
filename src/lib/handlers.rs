@@ -25,4 +25,21 @@ impl InstructionHandler for LeftHandler {
 }
 
 pub struct RightHandler;
+
+impl InstructionHandler for RightHandler {
+	fn handle(&self, _: &Grid, robot: &mut Robot, _: &mut HashMap<String, bool>) {
+		// We ignore all the instructions if the robot is lost
+		if matches!(robot.status, RobotStatus::Lost) {
+			return;
+		}
+
+		robot.last_position.orientation = match robot.last_position.orientation {
+			Orientation::North => Orientation::East,
+			Orientation::East => Orientation::South,
+			Orientation::South => Orientation::West,
+			Orientation::West => Orientation::North,
+		}
+	}
+}
+
 pub struct ForwardHandler;
