@@ -1,6 +1,8 @@
 use std::collections::HashMap;
 use std::fmt::{Display, Formatter};
 
+pub mod robot;
+
 /// Maximum coordinate value for the grid
 pub const MAX_COORDINATE_VALUE: u8 = 50;
 
