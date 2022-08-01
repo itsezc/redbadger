@@ -35,6 +35,19 @@ impl Display for Orientation {
 	}
 }
 
+#[derive(Debug)]
+pub struct Position {
+	pub x: u8,
+	pub y: u8,
+	pub orientation: Orientation,
+}
+
+impl Display for Position {
+	fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
+		write!(f, "{} {} {}", self.x, self.y, self.orientation)
+	}
+}
+
 pub struct Map {
 	max_x: u8,
 	max_y: u8,
