@@ -5,7 +5,7 @@ mod lib;
 
 use lib::{
 	robot::{Robot, RobotStatus},
-	validate_coordinate, Grid, Orientation,
+	validate_coordinate, Grid, Orientation, Position,
 };
 
 pub fn main() -> Result<(), &'static str> {
@@ -44,5 +44,19 @@ pub fn main() -> Result<(), &'static str> {
 				""
 			}
 		)
+	}
+}
+
+#[cfg(test)]
+mod tests {
+	use crate::{Orientation, Position};
+
+	#[test]
+	fn it_parses_robot_position() {
+		let position: Position = "10 5 E".to_string().try_into().unwrap();
+
+		assert_eq!(position.x, 10);
+		assert_eq!(position.y, 5);
+		assert!(matches!(position.orientation, Orientation::East));
 	}
 }
