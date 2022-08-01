@@ -5,7 +5,7 @@ mod lib;
 
 use lib::{
 	robot::{Robot, RobotStatus},
-	validate_coordinate, Grid, Orientation, Position,
+	validate_coordinate, Grid, Orientation,
 };
 
 pub fn main() -> Result<(), &'static str> {
@@ -51,7 +51,7 @@ pub fn main() -> Result<(), &'static str> {
 mod tests {
 	use std::collections::HashMap;
 
-	use crate::{Grid, Orientation, Position, Robot, RobotStatus};
+	use crate::{lib::Position, Grid, Orientation, Robot, RobotStatus};
 
 	#[test]
 	fn it_parses_robot_position() {
