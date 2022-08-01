@@ -22,4 +22,23 @@ pub fn main() -> Result<(), &'static str> {
 
 	let mut grid = Grid::new(validate_coordinate(max_x)?, validate_coordinate(max_y)?);
 	let mut scents: HashMap<String, bool> = HashMap::new();
+
+	loop {
+		let robot_position = lines.next().unwrap().unwrap();
+		let robot_instructions = lines.next().unwrap().unwrap();
+
+		let mut robot = Robot::new(robot_position.try_into()?);
+
+		grid.process_instructions(&mut robot, &mut scents, robot_instructions);
+
+		println!(
+			"{}{}",
+			robot.last_position,
+			if matches!(robot.status, RobotStatus::Lost) {
+				" LOST"
+			} else {
+				""
+			}
+		)
+	}
 }
