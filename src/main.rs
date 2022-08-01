@@ -27,6 +27,10 @@ pub fn main() -> Result<(), &'static str> {
 		let robot_position = lines.next().unwrap().unwrap();
 		let robot_instructions = lines.next().unwrap().unwrap();
 
+		if robot_instructions.len() > 100 {
+			return Err("Instruction strings has to be less than 100 characters in length.");
+		}
+
 		let mut robot = Robot::new(robot_position.try_into()?);
 
 		grid.process_instructions(&mut robot, &mut scents, robot_instructions);
