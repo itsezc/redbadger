@@ -112,4 +112,48 @@ mod tests {
 		assert_eq!(scents.len(), 1);
 		assert!(scents.get("0--1").is_some());
 	}
+
+	#[test]
+	fn it_cant_fall_to_void_twice_on_same_spot() {
+		let mut scents = HashMap::new();
+		let mut grid = Grid::new(50, 50);
+
+		// Robot#1
+		{
+			let mut robot = Robot::new("0 0 S".to_string().try_into().unwrap());
+
+			grid.process_instructions(&mut robot, &mut scents, "F".to_string());
+
+			// Last position is not changed
+			assert_eq!(robot.last_position.x, 0);
+			assert_eq!(robot.last_position.y, 0);
+			assert!(matches!(
+				robot.last_position.orientation,
+				Orientation::South
+			));
+
+			// It sets robot status to lost and adds scent
+			assert!(matches!(robot.status, RobotStatus::Lost));
+			assert_eq!(scents.len(), 1);
+			assert!(scents.get("0--1").is_some());
+		}
+
+		// Robot#2
+		{
+			let mut robot = Robot::new("0 0 S".to_string().try_into().unwrap());
+
+			grid.process_instructions(&mut robot, &mut scents, "FFFFFFFF".to_string());
+
+			// Last position is not changed
+			assert_eq!(robot.last_position.x, 0);
+			assert_eq!(robot.last_position.y, 0);
+			assert!(matches!(
+				robot.last_position.orientation,
+				Orientation::South
+			));
+
+			// And this robot didn't fall so status is Located
+			assert!(matches!(robot.status, RobotStatus::Located));
+		}
+	}
 }
