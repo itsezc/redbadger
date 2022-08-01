@@ -1,9 +1,8 @@
 use std::collections::HashMap;
 use std::fmt::{Display, Formatter};
 
-use robot::Robot;
-
 use handlers::{ForwardHandler, InstructionHandler, LeftHandler, RightHandler};
+use robot::Robot;
 
 pub mod handlers;
 pub mod robot;
@@ -42,6 +41,20 @@ impl Display for Orientation {
 	}
 }
 
+impl TryInto<Orientation> for &str {
+	type Error = &'static str;
+
+	fn try_into(self) -> Result<Orientation, Self::Error> {
+		match self {
+			"N" => Ok(Orientation::North),
+			"E" => Ok(Orientation::East),
+			"S" => Ok(Orientation::South),
+			"W" => Ok(Orientation::West),
+			_ => Err("Invalid coordinate orientation"),
+		}
+	}
+}
+
 #[derive(Debug)]
 pub struct Position {
 	pub x: u8,
@@ -59,7 +72,7 @@ impl TryInto<Position> for String {
 	type Error = &'static str;
 
 	fn try_into(self) -> Result<Position, Self::Error> {
-		let parts = self.split(" ").collect::<Vec<_>>();
+		let parts = self.split(' ').collect::<Vec<_>>();
 
 		let err = "Error parsing coordinate";
 
