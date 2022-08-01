@@ -1,3 +1,6 @@
+use std::io;
+use std::io::BufRead;
+
 mod lib;
 
 use lib::{
@@ -6,5 +9,9 @@ use lib::{
 };
 
 pub fn main() {
-	println!("Hello World");
+	let stdin = io::stdin();
+	let mut lines = stdin.lock().lines();
+
+	// We get the grid size from the first input line
+	let first_line = lines.next().unwrap().unwrap();
 }
