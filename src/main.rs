@@ -8,7 +8,7 @@ use lib::{
 	validate_coordinate, Grid, Orientation,
 };
 
-pub fn main() {
+pub fn main() -> Result<(), &'static str> {
 	let stdin = io::stdin();
 	let mut lines = stdin.lock().lines();
 
