@@ -103,4 +103,17 @@ impl Grid {
 			instruction_handlers,
 		}
 	}
+
+	pub fn process_instructions(
+		&mut self,
+		robot: &mut Robot,
+		scents: &mut HashMap<String, bool>,
+		instruction_line: String,
+	) {
+		for instruction in instruction_line.chars() {
+			if let Some(handler) = self.instruction_handlers.get(&instruction) {
+				handler.handle(self, robot, scents)
+			}
+		}
+	}
 }
