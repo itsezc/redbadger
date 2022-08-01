@@ -4,6 +4,14 @@ use std::fmt::{Display, Formatter};
 /// Maximum coordinate value for the grid
 pub const MAX_COORDINATE_VALUE: u8 = 50;
 
+pub fn validate_coordinate(c: u8) -> Result<u8, &'static str> {
+	if c > MAX_COORDINATE_VALUE {
+		Err("Maximum value for any coordinate on the grid exceeded.")
+	} else {
+		Ok(c)
+	}
+}
+
 #[derive(Debug)]
 pub enum Orientation {
 	North,
