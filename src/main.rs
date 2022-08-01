@@ -51,7 +51,7 @@ pub fn main() -> Result<(), &'static str> {
 mod tests {
 	use std::collections::HashMap;
 
-	use crate::{Grid, Orientation, Position, Robot};
+	use crate::{Grid, Orientation, Position, Robot, RobotStatus};
 
 	#[test]
 	fn it_parses_robot_position() {
@@ -88,5 +88,28 @@ mod tests {
 			assert_eq!(robot.last_position.y, 7);
 			assert!(matches!(robot.last_position.orientation, Orientation::East));
 		}
+	}
+
+	#[test]
+	fn it_can_fall_to_void() {
+		let mut scents = HashMap::new();
+		let mut grid = Grid::new(50, 50);
+
+		let mut robot = Robot::new("0 0 S".to_string().try_into().unwrap());
+
+		grid.process_instructions(&mut robot, &mut scents, "F".to_string());
+
+		// Last position is not changed
+		assert_eq!(robot.last_position.x, 0);
+		assert_eq!(robot.last_position.y, 0);
+		assert!(matches!(
+			robot.last_position.orientation,
+			Orientation::South
+		));
+
+		// It sets robot status to lost and adds scent
+		assert!(matches!(robot.status, RobotStatus::Lost));
+		assert_eq!(scents.len(), 1);
+		assert!(scents.get("0--1").is_some());
 	}
 }
